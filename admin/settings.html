@@ -1,0 +1,336 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置 - 财务税务代理公司</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- 侧边栏 -->
+        <div class="admin-sidebar">
+            <h2>管理后台</h2>
+            <ul class="admin-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> 仪表板</a></li>
+                <li><a href="company-info.html"><i class="fas fa-building"></i> 公司信息</a></li>
+                <li><a href="services.html"><i class="fas fa-cogs"></i> 服务管理</a></li>
+                <li><a href="consultations.html"><i class="fas fa-comments"></i> 咨询管理</a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> 用户管理</a></li>
+                <li><a href="content.html"><i class="fas fa-edit"></i> 内容编辑</a></li>
+                <li><a href="settings.html" class="active"><i class="fas fa-cog"></i> 系统设置</a></li>
+                <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+            </ul>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1>系统设置</h1>
+                <p>管理系统基本配置和参数</p>
+            </div>
+
+            <!-- 基本设置 -->
+            <div class="admin-card">
+                <h3>基本设置</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label for="site-name">网站名称：</label>
+                        <input type="text" id="site-name" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                    </div>
+                    <div>
+                        <label for="site-url">网站地址：</label>
+                        <input type="url" id="site-url" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="site-description">网站描述：</label>
+                    <textarea id="site-description" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 80px;"></textarea>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="site-keywords">网站关键词：</label>
+                    <input type="text" id="site-keywords" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" placeholder="多个关键词用逗号分隔">
+                </div>
+                
+                <button id="save-basic-settings" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存基本设置</button>
+            </div>
+
+            <!-- 联系信息设置 -->
+            <div class="admin-card">
+                <h3>联系信息</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label for="contact-phone">联系电话：</label>
+                        <input type="tel" id="contact-phone" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                    </div>
+                    <div>
+                        <label for="contact-email">联系邮箱：</label>
+                        <input type="email" id="contact-email" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="contact-address">联系地址：</label>
+                    <textarea id="contact-address" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 60px;"></textarea>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="business-hours">营业时间：</label>
+                    <input type="text" id="business-hours" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" placeholder="例如：周一至周五 9:00-18:00">
+                </div>
+                
+                <button id="save-contact-settings" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存联系信息</button>
+            </div>
+
+            <!-- 邮件设置 -->
+            <div class="admin-card">
+                <h3>邮件设置</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label for="smtp-host">SMTP服务器：</label>
+                        <input type="text" id="smtp-host" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                    </div>
+                    <div>
+                        <label for="smtp-port">SMTP端口：</label>
+                        <input type="number" id="smtp-port" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label for="smtp-username">SMTP用户名：</label>
+                        <input type="text" id="smtp-username" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                    </div>
+                    <div>
+                        <label for="smtp-password">SMTP密码：</label>
+                        <input type="password" id="smtp-password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="from-email">发件人邮箱：</label>
+                    <input type="email" id="from-email" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                
+                <button id="save-email-settings" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存邮件设置</button>
+            </div>
+
+            <!-- 系统维护 -->
+            <div class="admin-card">
+                <h3>系统维护</h3>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="maintenance-mode">
+                        <span>启用维护模式</span>
+                    </label>
+                    <small style="color: #666; margin-top: 5px; display: block;">启用后网站将显示维护页面，只有管理员可以访问</small>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label for="maintenance-message">维护消息：</label>
+                    <textarea id="maintenance-message" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 80px;"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button id="clear-cache" style="background: #e67e22; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">清除缓存</button>
+                    <button id="backup-data" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">备份数据</button>
+                    <button id="save-maintenance-settings" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存维护设置</button>
+                </div>
+            </div>
+
+            <!-- 管理员设置 -->
+            <div class="admin-card">
+                <h3>管理员设置</h3>
+                <div style="margin-bottom: 20px;">
+                    <h4>修改密码</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <label for="current-password">当前密码：</label>
+                            <input type="password" id="current-password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                        </div>
+                        <div>
+                            <label for="new-password">新密码：</label>
+                            <input type="password" id="new-password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="confirm-password">确认新密码：</label>
+                        <input type="password" id="confirm-password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <button id="change-password" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px;">修改密码</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 安全检查：如果未登录，跳转到登录页
+        if (localStorage.getItem('admin_logged_in') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // 退出登录
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('确定要退出登录吗？')) {
+                localStorage.removeItem('admin_logged_in');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // 加载设置数据
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('system_settings')) || {};
+            
+            // 基本设置
+            document.getElementById('site-name').value = settings.siteName || '财务税务代理公司';
+            document.getElementById('site-url').value = settings.siteUrl || window.location.origin;
+            document.getElementById('site-description').value = settings.siteDescription || '专业财务税务代理服务，一站式企业服务解决方案';
+            document.getElementById('site-keywords').value = settings.siteKeywords || '财务代理,税务代理,工商注册,知识产权,会计服务';
+            
+            // 联系信息
+            document.getElementById('contact-phone').value = settings.contactPhone || '+86-0755-85216839';
+            document.getElementById('contact-email').value = settings.contactEmail || '1006993710@qq.com';
+            document.getElementById('contact-address').value = settings.contactAddress || '中国广东省深圳市龙岗区龙岗街道龙岗路东森大厦';
+            document.getElementById('business-hours').value = settings.businessHours || '周一至周五 9:00-18:00';
+            
+            // 邮件设置
+            document.getElementById('smtp-host').value = settings.smtpHost || '';
+            document.getElementById('smtp-port').value = settings.smtpPort || '587';
+            document.getElementById('smtp-username').value = settings.smtpUsername || '';
+            document.getElementById('smtp-password').value = settings.smtpPassword || '';
+            document.getElementById('from-email').value = settings.fromEmail || '';
+            
+            // 系统维护
+            document.getElementById('maintenance-mode').checked = settings.maintenanceMode || false;
+            document.getElementById('maintenance-message').value = settings.maintenanceMessage || '网站正在维护中，请稍后再访问。';
+        }
+
+        // 保存基本设置
+        document.getElementById('save-basic-settings').addEventListener('click', function() {
+            const settings = JSON.parse(localStorage.getItem('system_settings')) || {};
+            
+            settings.siteName = document.getElementById('site-name').value;
+            settings.siteUrl = document.getElementById('site-url').value;
+            settings.siteDescription = document.getElementById('site-description').value;
+            settings.siteKeywords = document.getElementById('site-keywords').value;
+            
+            localStorage.setItem('system_settings', JSON.stringify(settings));
+            alert('基本设置保存成功！');
+        });
+
+        // 保存联系信息
+        document.getElementById('save-contact-settings').addEventListener('click', function() {
+            const settings = JSON.parse(localStorage.getItem('system_settings')) || {};
+            
+            settings.contactPhone = document.getElementById('contact-phone').value;
+            settings.contactEmail = document.getElementById('contact-email').value;
+            settings.contactAddress = document.getElementById('contact-address').value;
+            settings.businessHours = document.getElementById('business-hours').value;
+            
+            localStorage.setItem('system_settings', JSON.stringify(settings));
+            alert('联系信息保存成功！');
+        });
+
+        // 保存邮件设置
+        document.getElementById('save-email-settings').addEventListener('click', function() {
+            const settings = JSON.parse(localStorage.getItem('system_settings')) || {};
+            
+            settings.smtpHost = document.getElementById('smtp-host').value;
+            settings.smtpPort = document.getElementById('smtp-port').value;
+            settings.smtpUsername = document.getElementById('smtp-username').value;
+            settings.smtpPassword = document.getElementById('smtp-password').value;
+            settings.fromEmail = document.getElementById('from-email').value;
+            
+            localStorage.setItem('system_settings', JSON.stringify(settings));
+            alert('邮件设置保存成功！');
+        });
+
+        // 保存维护设置
+        document.getElementById('save-maintenance-settings').addEventListener('click', function() {
+            const settings = JSON.parse(localStorage.getItem('system_settings')) || {};
+            
+            settings.maintenanceMode = document.getElementById('maintenance-mode').checked;
+            settings.maintenanceMessage = document.getElementById('maintenance-message').value;
+            
+            localStorage.setItem('system_settings', JSON.stringify(settings));
+            alert('维护设置保存成功！');
+        });
+
+        // 清除缓存
+        document.getElementById('clear-cache').addEventListener('click', function() {
+            if (confirm('确定要清除缓存吗？这将清除所有临时数据。')) {
+                // 清除特定缓存数据
+                localStorage.removeItem('cached_data');
+                alert('缓存清除成功！');
+            }
+        });
+
+        // 备份数据
+        document.getElementById('backup-data').addEventListener('click', function() {
+            // 创建数据备份
+            const backupData = {
+                users: JSON.parse(localStorage.getItem('users')) || [],
+                services: JSON.parse(localStorage.getItem('services')) || [],
+                consultations: JSON.parse(localStorage.getItem('consultations')) || [],
+                settings: JSON.parse(localStorage.getItem('system_settings')) || {},
+                timestamp: new Date().toISOString()
+            };
+            
+            // 创建下载链接
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `backup_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            
+            alert('数据备份完成！文件已开始下载。');
+        });
+
+        // 修改密码
+        document.getElementById('change-password').addEventListener('click', function() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                alert('请填写所有密码字段！');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('新密码和确认密码不一致！');
+                return;
+            }
+            
+            // 这里应该验证当前密码的正确性
+            // 由于是演示，我们假设当前密码正确
+            
+            // 更新密码（在实际应用中应该加密存储）
+            const adminData = JSON.parse(localStorage.getItem('admin_data')) || {};
+            adminData.password = newPassword;
+            localStorage.setItem('admin_data', JSON.stringify(adminData));
+            
+            // 清空密码字段
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+            
+            alert('密码修改成功！');
+        });
+
+        // 页面加载时加载设置
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+        });
+    </script>
+</body>
+</html>

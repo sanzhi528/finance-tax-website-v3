@@ -1,0 +1,542 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 财务税务代理公司</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- 侧边栏 -->
+        <div class="admin-sidebar">
+            <h2>管理后台</h2>
+            <ul class="admin-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> 仪表板</a></li>
+                <li><a href="company-info.html"><i class="fas fa-building"></i> 公司信息</a></li>
+                <li><a href="services.html"><i class="fas fa-cogs"></i> 服务管理</a></li>
+                <li><a href="consultations.html"><i class="fas fa-comments"></i> 咨询管理</a></li>
+                <li><a href="users.html" class="active"><i class="fas fa-users"></i> 用户管理</a></li>
+                <li><a href="content.html"><i class="fas fa-edit"></i> 内容编辑</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> 系统设置</a></li>
+                <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+            </ul>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1>用户管理</h1>
+                <p>管理系统注册用户信息</p>
+            </div>
+
+            <!-- 用户统计 -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                <div class="admin-card">
+                    <h4>总用户数</h4>
+                    <p style="font-size: 2rem; font-weight: bold; color: #3498db;">156</p>
+                </div>
+                <div class="admin-card">
+                    <h4>今日注册</h4>
+                    <p style="font-size: 2rem; font-weight: bold; color: #27ae60;">8</p>
+                </div>
+                <div class="admin-card">
+                    <h4>活跃用户</h4>
+                    <p style="font-size: 2rem; font-weight: bold; color: #f39c12;">42</p>
+                </div>
+                <div class="admin-card">
+                    <h4>VIP用户</h4>
+                    <p style="font-size: 2rem; font-weight: bold; color: #9b59b6;">15</p>
+                </div>
+            </div>
+
+            <!-- 搜索和筛选 -->
+            <div class="admin-card" style="margin-bottom: 20px;">
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <div style="flex: 1;">
+                        <input type="text" id="search-users" placeholder="搜索用户名、邮箱或手机号..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div>
+                        <label for="user-status-filter">状态筛选：</label>
+                        <select id="user-status-filter" style="padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                            <option value="all">全部用户</option>
+                            <option value="active">活跃</option>
+                            <option value="inactive">非活跃</option>
+                            <option value="vip">VIP用户</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="user-date-filter">注册时间：</label>
+                        <input type="date" id="user-date-filter" style="padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <button id="reset-user-filter" style="background: #95a5a6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">重置</button>
+                </div>
+            </div>
+
+            <!-- 用户列表 -->
+            <div class="admin-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>用户列表</h3>
+                    <button id="export-users" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        <i class="fas fa-download"></i> 导出用户数据
+                    </button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">用户信息</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">联系方式</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">公司信息</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">注册时间</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">最后登录</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">状态</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- 用户数据将通过JavaScript动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分页控件 -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                    <div style="color: #666;">
+                        显示 <span id="current-page">1</span> / <span id="total-pages">1</span> 页，共 <span id="total-users">0</span> 个用户
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <button id="prev-page" style="background: #ecf0f1; border: 1px solid #bdc3c7; padding: 5px 10px; border-radius: 3px; cursor: pointer;">上一页</button>
+                        <button id="next-page" style="background: #ecf0f1; border: 1px solid #bdc3c7; padding: 5px 10px; border-radius: 3px; cursor: pointer;">下一页</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 用户详情模态框 -->
+    <div id="user-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <h3>用户详情</h3>
+            
+            <div id="user-details" style="margin-bottom: 20px;">
+                <!-- 用户详情内容将通过JavaScript动态加载 -->
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h4>用户统计</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #3498db;">12</div>
+                        <div style="color: #666;">咨询次数</div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #27ae60;">5</div>
+                        <div style="color: #666;">下单次数</div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #f39c12;">3</div>
+                        <div style="color: #666;">VIP服务</div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #9b59b6;">¥8,500</div>
+                        <div style="color: #666;">总消费</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" id="close-user-modal" style="background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">关闭</button>
+                <button type="button" id="send-message" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">发送消息</button>
+                <button type="button" id="toggle-vip" style="background: #9b59b6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">切换VIP</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 安全检查：如果未登录，跳转到登录页
+        if (localStorage.getItem('admin_logged_in') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // 退出登录
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('确定要退出登录吗？')) {
+                localStorage.removeItem('admin_logged_in');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // 默认用户数据
+        const defaultUsers = [
+            {
+                id: 1,
+                username: 'zhangwei',
+                name: '张伟',
+                email: 'zhangwei@example.com',
+                phone: '138****1234',
+                company: 'ABC科技有限公司',
+                industry: '信息技术',
+                registerTime: '2024-01-10 09:30:00',
+                lastLogin: '2024-01-15 14:25:00',
+                status: 'active',
+                isVip: false,
+                consultationCount: 3,
+                orderCount: 2,
+                totalSpent: 3500
+            },
+            {
+                id: 2,
+                username: 'limei',
+                name: '李梅',
+                email: 'limei@example.com',
+                phone: '139****5678',
+                company: '创意设计工作室',
+                industry: '创意设计',
+                registerTime: '2024-01-12 14:20:00',
+                lastLogin: '2024-01-15 13:15:00',
+                status: 'active',
+                isVip: true,
+                consultationCount: 8,
+                orderCount: 5,
+                totalSpent: 12500
+            },
+            {
+                id: 3,
+                username: 'wanggang',
+                name: '王刚',
+                email: 'wanggang@example.com',
+                phone: '136****9012',
+                company: '进出口贸易公司',
+                industry: '国际贸易',
+                registerTime: '2024-01-08 11:45:00',
+                lastLogin: '2024-01-14 16:30:00',
+                status: 'active',
+                isVip: false,
+                consultationCount: 2,
+                orderCount: 1,
+                totalSpent: 800
+            },
+            {
+                id: 4,
+                username: 'chenli',
+                name: '陈丽',
+                email: 'chenli@example.com',
+                phone: '137****3456',
+                company: '教育培训机构',
+                industry: '教育',
+                registerTime: '2024-01-05 10:15:00',
+                lastLogin: '2024-01-12 09:20:00',
+                status: 'inactive',
+                isVip: false,
+                consultationCount: 1,
+                orderCount: 0,
+                totalSpent: 0
+            },
+            {
+                id: 5,
+                username: 'liuqiang',
+                name: '刘强',
+                email: 'liuqiang@example.com',
+                phone: '135****7890',
+                company: '餐饮连锁企业',
+                industry: '餐饮',
+                registerTime: '2024-01-15 08:45:00',
+                lastLogin: '2024-01-15 08:45:00',
+                status: 'active',
+                isVip: false,
+                consultationCount: 0,
+                orderCount: 0,
+                totalSpent: 0
+            }
+        ];
+
+        // 分页相关变量
+        let currentPage = 1;
+        const usersPerPage = 10;
+
+        // 加载用户数据
+        function loadUsers(filters = {}) {
+            let users = JSON.parse(localStorage.getItem('users')) || defaultUsers;
+            
+            // 应用筛选条件
+            if (filters.search) {
+                const searchTerm = filters.search.toLowerCase();
+                users = users.filter(user => 
+                    user.name.toLowerCase().includes(searchTerm) ||
+                    user.email.toLowerCase().includes(searchTerm) ||
+                    user.phone.includes(searchTerm) ||
+                    user.company.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (filters.status && filters.status !== 'all') {
+                if (filters.status === 'vip') {
+                    users = users.filter(user => user.isVip);
+                } else {
+                    users = users.filter(user => user.status === filters.status);
+                }
+            }
+            
+            if (filters.date) {
+                users = users.filter(user => user.registerTime.startsWith(filters.date));
+            }
+            
+            // 计算分页
+            const totalUsers = users.length;
+            const totalPages = Math.ceil(totalUsers / usersPerPage);
+            
+            // 获取当前页的用户
+            const startIndex = (currentPage - 1) * usersPerPage;
+            const endIndex = startIndex + usersPerPage;
+            const currentUsers = users.slice(startIndex, endIndex);
+            
+            // 更新分页信息
+            document.getElementById('current-page').textContent = currentPage;
+            document.getElementById('total-pages').textContent = totalPages;
+            document.getElementById('total-users').textContent = totalUsers;
+            
+            // 更新分页按钮状态
+            document.getElementById('prev-page').disabled = currentPage === 1;
+            document.getElementById('next-page').disabled = currentPage === totalPages;
+            
+            // 渲染用户列表
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '';
+            
+            currentUsers.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                        <strong>${user.name}</strong><br>
+                        <small style="color: #666;">@${user.username}</small>
+                    </td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                        ${user.phone}<br>
+                        <small style="color: #666;">${user.email}</small>
+                    </td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                        ${user.company}<br>
+                        <small style="color: #666;">${user.industry}</small>
+                    </td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${user.registerTime}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${user.lastLogin}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                        <span class="user-status-badge" data-status="${user.status}" data-vip="${user.isVip}">
+                            ${getUserStatusText(user.status, user.isVip)}
+                        </span>
+                    </td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                        <button class="view-user" data-id="${user.id}" style="background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;">查看</button>
+                        <button class="delete-user" data-id="${user.id}" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">删除</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // 绑定用户操作事件
+            bindUserEvents();
+            
+            // 更新状态徽章样式
+            updateUserStatusBadges();
+        }
+
+        // 获取用户状态文本
+        function getUserStatusText(status, isVip) {
+            if (isVip) return 'VIP用户';
+            return status === 'active' ? '活跃' : '非活跃';
+        }
+
+        // 更新用户状态徽章样式
+        function updateUserStatusBadges() {
+            document.querySelectorAll('.user-status-badge').forEach(badge => {
+                const status = badge.dataset.status;
+                const isVip = badge.dataset.vip === 'true';
+                
+                badge.style.padding = '4px 8px';
+                badge.style.borderRadius = '12px';
+                badge.style.fontSize = '12px';
+                badge.style.fontWeight = 'bold';
+                
+                if (isVip) {
+                    badge.style.background = '#9b59b6';
+                    badge.style.color = 'white';
+                } else if (status === 'active') {
+                    badge.style.background = '#27ae60';
+                    badge.style.color = 'white';
+                } else {
+                    badge.style.background = '#95a5a6';
+                    badge.style.color = 'white';
+                }
+            });
+        }
+
+        // 绑定用户操作事件
+        function bindUserEvents() {
+            document.querySelectorAll('.view-user').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = parseInt(this.dataset.id);
+                    viewUser(userId);
+                });
+            });
+
+            document.querySelectorAll('.delete-user').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = parseInt(this.dataset.id);
+                    deleteUser(userId);
+                });
+            });
+        }
+
+        // 查看用户详情
+        function viewUser(userId) {
+            const users = JSON.parse(localStorage.getItem('users')) || defaultUsers;
+            const user = users.find(u => u.id === userId);
+            
+            if (user) {
+                // 显示用户详情
+                document.getElementById('user-details').innerHTML = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div><strong>用户名：</strong>${user.username}</div>
+                        <div><strong>真实姓名：</strong>${user.name}</div>
+                        <div><strong>邮箱地址：</strong>${user.email}</div>
+                        <div><strong>手机号码：</strong>${user.phone}</div>
+                        <div><strong>公司名称：</strong>${user.company}</div>
+                        <div><strong>所属行业：</strong>${user.industry}</div>
+                        <div><strong>注册时间：</strong>${user.registerTime}</div>
+                        <div><strong>最后登录：</strong>${user.lastLogin}</div>
+                        <div><strong>用户状态：</strong>${getUserStatusText(user.status, user.isVip)}</div>
+                        <div><strong>VIP状态：</strong>${user.isVip ? '是' : '否'}</div>
+                    </div>
+                `;
+                
+                // 设置当前用户ID
+                document.getElementById('user-modal').dataset.currentId = userId;
+                document.getElementById('toggle-vip').textContent = user.isVip ? '取消VIP' : '设为VIP';
+                document.getElementById('user-modal').style.display = 'block';
+            }
+        }
+
+        // 删除用户
+        function deleteUser(userId) {
+            if (confirm('确定要删除这个用户吗？此操作不可恢复！')) {
+                let users = JSON.parse(localStorage.getItem('users')) || defaultUsers;
+                users = users.filter(u => u.id !== userId);
+                localStorage.setItem('users', JSON.stringify(users));
+                loadUsers();
+                alert('用户删除成功！');
+            }
+        }
+
+        // 搜索功能
+        document.getElementById('search-users').addEventListener('input', function() {
+            currentPage = 1; // 搜索时重置到第一页
+            applyUserFilters();
+        });
+
+        // 筛选功能
+        document.getElementById('user-status-filter').addEventListener('change', applyUserFilters);
+        document.getElementById('user-date-filter').addEventListener('change', applyUserFilters);
+        
+        function applyUserFilters() {
+            const filters = {
+                search: document.getElementById('search-users').value,
+                status: document.getElementById('user-status-filter').value,
+                date: document.getElementById('user-date-filter').value
+            };
+            loadUsers(filters);
+        }
+
+        // 重置筛选
+        document.getElementById('reset-user-filter').addEventListener('click', function() {
+            document.getElementById('search-users').value = '';
+            document.getElementById('user-status-filter').value = 'all';
+            document.getElementById('user-date-filter').value = '';
+            currentPage = 1;
+            loadUsers();
+        });
+
+        // 分页功能
+        document.getElementById('prev-page').addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadUsers();
+            }
+        });
+
+        document.getElementById('next-page').addEventListener('click', function() {
+            const totalPages = parseInt(document.getElementById('total-pages').textContent);
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadUsers();
+            }
+        });
+
+        // 导出用户数据
+        document.getElementById('export-users').addEventListener('click', function() {
+            const users = JSON.parse(localStorage.getItem('users')) || defaultUsers;
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "用户名,姓名,邮箱,手机,公司,行业,注册时间,最后登录,状态,VIP\\n"
+                + users.map(user => 
+                    `"${user.username}","${user.name}","${user.email}","${user.phone}","${user.company}","${user.industry}","${user.registerTime}","${user.lastLogin}","${getUserStatusText(user.status, user.isVip)}","${user.isVip ? '是' : '否'}"`
+                ).join("\\n");
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "users_export.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // 模态框操作
+        document.getElementById('close-user-modal').addEventListener('click', function() {
+            document.getElementById('user-modal').style.display = 'none';
+        });
+
+        document.getElementById('send-message').addEventListener('click', function() {
+            const userId = parseInt(document.getElementById('user-modal').dataset.currentId);
+            const users = JSON.parse(localStorage.getItem('users')) || defaultUsers;
+            const user = users.find(u => u.id === userId);
+            
+            if (user) {
+                const message = prompt(`给 ${user.name} 发送消息：`);
+                if (message) {
+                    alert(`消息已发送给 ${user.name}（${user.phone}）`);
+                }
+            }
+        });
+
+        document.getElementById('toggle-vip').addEventListener('click', function() {
+            const userId = parseInt(document.getElementById('user-modal').dataset.currentId);
+            let users = JSON.parse(localStorage.getItem('users')) || defaultUsers;
+            const index = users.findIndex(u => u.id === userId);
+            
+            if (index !== -1) {
+                users[index].isVip = !users[index].isVip;
+                localStorage.setItem('users', JSON.stringify(users));
+                document.getElementById('user-modal').style.display = 'none';
+                loadUsers();
+                alert(`用户 ${users[index].name} 的VIP状态已更新！`);
+            }
+        });
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+        });
+
+        // 侧边栏菜单激活状态
+        document.querySelectorAll('.admin-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.admin-menu a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

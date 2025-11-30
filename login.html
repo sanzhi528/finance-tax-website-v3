@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录/注册 - 财务税务代理公司</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航�?-->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-placeholder">
+                    <img src="images/LOGO图标.jpg" alt="财务税务代理公司" style="width: 40px; height: 40px; object-fit: contain;">
+                </div>
+                <span id="company-name">财务税务代理公司</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="index.html#services">服务项目</a></li>
+                <li><a href="index.html#about">关于我们</a></li>
+                <li><a href="index.html#contact">联系我们</a></li>
+                <li><a href="admin/" class="login-btn">后台管理</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 登录/注册表单 -->
+    <div class="container">
+        <div class="form-container">
+            <h2>用户登录</h2>
+            <form id="loginForm" action="api/login.php" method="POST">
+                <div class="form-group">
+                    <label for="login-email">邮箱地址</label>
+                    <input type="email" id="login-email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">密码</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                
+                <button type="submit" class="submit-btn">登录</button>
+            </form>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <span>或</span>
+            </div>
+            
+            <h2>用户注册</h2>
+            <form id="registerForm" action="api/register.php" method="POST">
+                <div class="form-group">
+                    <label for="register-name">姓名</label>
+                    <input type="text" id="register-name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email">邮箱地址</label>
+                    <input type="email" id="register-email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-phone">手机号码</label>
+                    <input type="tel" id="register-phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">密码</label>
+                    <input type="password" id="register-password" name="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-confirm">确认密码</label>
+                    <input type="password" id="register-confirm" name="confirm_password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-company">公司名称（可选）</label>
+                    <input type="text" id="register-company" name="company">
+                </div>
+                
+                <button type="submit" class="submit-btn">注册</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // 登录表单处理
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            // 这里可以添加AJAX提交
+            fetch('api/login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = 'user/dashboard.html';
+                } else {
+                    alert(data.message || '登录失败');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('登录过程中发生错误');
+            });
+        });
+        
+        // 注册表单处理
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm').value;
+            
+            if (password !== confirmPassword) {
+                alert('两次输入的密码不一致');
+                return;
+            }
+            
+            const formData = new FormData(this);
+            
+            fetch('api/register.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('注册成功！请登录');
+                    document.getElementById('registerForm').reset();
+                } else {
+                    alert(data.message || '注册失败');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('注册过程中发生错误');
+            });
+        });
+    </script>
+</body>
+</html>

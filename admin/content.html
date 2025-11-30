@@ -1,0 +1,826 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内容编辑 - 财务税务代理公司</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- 侧边栏 -->
+        <div class="admin-sidebar">
+            <h2>管理后台</h2>
+            <ul class="admin-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> 仪表板</a></li>
+                <li><a href="company-info.html"><i class="fas fa-building"></i> 公司信息</a></li>
+                <li><a href="services.html"><i class="fas fa-cogs"></i> 服务管理</a></li>
+                <li><a href="consultations.html"><i class="fas fa-comments"></i> 咨询管理</a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> 用户管理</a></li>
+                <li><a href="content.html" class="active"><i class="fas fa-edit"></i> 内容编辑</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> 系统设置</a></li>
+                <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+            </ul>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1>内容编辑</h1>
+                <p>管理网站页面内容和文章发布</p>
+            </div>
+
+            <!-- 内容类型选择 -->
+            <div class="admin-card" style="margin-bottom: 20px;">
+                <h3>内容类型</h3>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="content-type-btn active" data-type="home">首页内容</button>
+                    <button class="content-type-btn" data-type="about">关于我们</button>
+                    <button class="content-type-btn" data-type="services">服务介绍</button>
+                    <button class="content-type-btn" data-type="articles">文章管理</button>
+                    <button class="content-type-btn" data-type="faq">常见问题</button>
+                </div>
+            </div>
+
+            <!-- 首页内容编辑 -->
+            <div id="home-content" class="content-section">
+                <div class="admin-card">
+                    <h3>首页横幅内容</h3>
+                    <div style="margin-bottom: 20px;">
+                        <label for="banner-title">横幅标题：</label>
+                        <input type="text" id="banner-title" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;" placeholder="输入横幅标题">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label for="banner-subtitle">横幅副标题：</label>
+                        <textarea id="banner-subtitle" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 80px;" placeholder="输入横幅副标题"></textarea>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label for="banner-button-text">按钮文字：</label>
+                        <input type="text" id="banner-button-text" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" placeholder="输入按钮文字">
+                    </div>
+                    <button id="save-banner" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存横幅内容</button>
+                </div>
+
+                <div class="admin-card">
+                    <h3>服务介绍内容</h3>
+                    <div style="margin-bottom: 20px;">
+                        <label for="services-intro">服务介绍文本：</label>
+                        <textarea id="services-intro" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 120px;" placeholder="输入服务介绍文本"></textarea>
+                    </div>
+                    <button id="save-services-intro" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存服务介绍</button>
+                </div>
+
+                <div class="admin-card">
+                    <h3>关于我们预览</h3>
+                    <div style="margin-bottom: 20px;">
+                        <label for="about-preview">关于我们预览文本：</label>
+                        <textarea id="about-preview" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 100px;" placeholder="输入关于我们预览文本"></textarea>
+                    </div>
+                    <button id="save-about-preview" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存关于我们预览</button>
+                </div>
+            </div>
+
+            <!-- 关于我们内容编辑 -->
+            <div id="about-content" class="content-section" style="display: none;">
+                <div class="admin-card">
+                    <h3>公司简介</h3>
+                    <div style="margin-bottom: 20px;">
+                        <label for="company-description">公司详细描述：</label>
+                        <textarea id="company-description" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 200px;" placeholder="输入公司详细描述"></textarea>
+                    </div>
+                    <button id="save-company-description" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存公司简介</button>
+                </div>
+
+                <div class="admin-card">
+                    <h3>公司优势</h3>
+                    <div id="advantages-container">
+                        <!-- 优势列表将通过JavaScript动态生成 -->
+                    </div>
+                    <button id="add-advantage" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px;">
+                        <i class="fas fa-plus"></i> 添加优势
+                    </button>
+                </div>
+
+                <div class="admin-card">
+                    <h3>团队介绍</h3>
+                    <div id="team-container">
+                        <!-- 团队成员将通过JavaScript动态生成 -->
+                    </div>
+                    <button id="add-team-member" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px;">
+                        <i class="fas fa-plus"></i> 添加团队成员
+                    </button>
+                </div>
+            </div>
+
+            <!-- 服务介绍内容编辑 -->
+            <div id="services-content" class="content-section" style="display: none;">
+                <div class="admin-card">
+                    <h3>服务类别管理</h3>
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                            <div>
+                                <h4>工商代理</h4>
+                                <textarea id="business-service-desc" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 150px;" placeholder="输入工商代理服务描述"></textarea>
+                                <button class="save-service-desc" data-service="business" style="background: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">保存</button>
+                            </div>
+                            <div>
+                                <h4>知识产权</h4>
+                                <textarea id="ip-service-desc" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 150px;" placeholder="输入知识产权服务描述"></textarea>
+                                <button class="save-service-desc" data-service="ip" style="background: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">保存</button>
+                            </div>
+                            <div>
+                                <h4>会计服务</h4>
+                                <textarea id="accounting-service-desc" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 150px;" placeholder="输入会计服务描述"></textarea>
+                                <button class="save-service-desc" data-service="accounting" style="background: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">保存</button>
+                            </div>
+                            <div>
+                                <h4>银行开户</h4>
+                                <textarea id="banking-service-desc" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 150px;" placeholder="输入银行开户服务描述"></textarea>
+                                <button class="save-service-desc" data-service="banking" style="background: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 文章管理 -->
+            <div id="articles-content" class="content-section" style="display: none;">
+                <div class="admin-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>文章管理</h3>
+                        <button id="new-article" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-plus"></i> 新建文章
+                        </button>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f8f9fa;">
+                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">文章标题</th>
+                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">分类</th>
+                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">发布时间</th>
+                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">状态</th>
+                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">阅读量</th>
+                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="articles-table-body">
+                                <!-- 文章数据将通过JavaScript动态加载 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 常见问题管理 -->
+            <div id="faq-content" class="content-section" style="display: none;">
+                <div class="admin-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>常见问题管理</h3>
+                        <button id="new-faq" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-plus"></i> 添加问题
+                        </button>
+                    </div>
+
+                    <div id="faq-container">
+                        <!-- 常见问题将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 文章编辑模态框 -->
+    <div id="article-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto;">
+            <h3 id="article-modal-title">新建文章</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="article-title">文章标题：</label>
+                <input type="text" id="article-title" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="article-category">文章分类：</label>
+                <select id="article-category" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <option value="news">公司新闻</option>
+                    <option value="knowledge">财税知识</option>
+                    <option value="policy">政策解读</option>
+                    <option value="tips">实用技巧</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="article-content">文章内容：</label>
+                <textarea id="article-content" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 300px;"></textarea>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="article-status">发布状态：</label>
+                <select id="article-status" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <option value="draft">草稿</option>
+                    <option value="published">已发布</option>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" id="close-article-modal" style="background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">取消</button>
+                <button type="button" id="save-article" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存文章</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 安全检查：如果未登录，跳转到登录页
+        if (localStorage.getItem('admin_logged_in') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // 退出登录
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('确定要退出登录吗？')) {
+                localStorage.removeItem('admin_logged_in');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // 内容类型切换
+        document.querySelectorAll('.content-type-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 移除所有按钮的激活状态
+                document.querySelectorAll('.content-type-btn').forEach(b => b.classList.remove('active'));
+                // 添加当前按钮的激活状态
+                this.classList.add('active');
+                
+                // 隐藏所有内容区域
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // 显示对应的内容区域
+                const contentType = this.dataset.type;
+                document.getElementById(contentType + '-content').style.display = 'block';
+                
+                // 加载对应内容
+                loadContent(contentType);
+            });
+        });
+
+        // 加载内容数据
+        function loadContent(type) {
+            switch(type) {
+                case 'home':
+                    loadHomeContent();
+                    break;
+                case 'about':
+                    loadAboutContent();
+                    break;
+                case 'services':
+                    loadServicesContent();
+                    break;
+                case 'articles':
+                    loadArticles();
+                    break;
+                case 'faq':
+                    loadFAQ();
+                    break;
+            }
+        }
+
+        // 加载首页内容
+        function loadHomeContent() {
+            const content = JSON.parse(localStorage.getItem('home_content')) || {};
+            
+            document.getElementById('banner-title').value = content.bannerTitle || '专业财务税务代理服务';
+            document.getElementById('banner-subtitle').value = content.bannerSubtitle || '一站式企业服务解决方案，助力您的企业发展';
+            document.getElementById('banner-button-text').value = content.bannerButtonText || '立即咨询';
+            document.getElementById('services-intro').value = content.servicesIntro || '我们提供全方位的财务税务代理服务，包括工商代理、知识产权、会计服务和银行开户等专业服务。';
+            document.getElementById('about-preview').value = content.aboutPreview || '我们是一家专业的财务税务代理公司，拥有多年的行业经验和专业的服务团队。';
+        }
+
+        // 保存首页横幅内容
+        document.getElementById('save-banner').addEventListener('click', function() {
+            const content = JSON.parse(localStorage.getItem('home_content')) || {};
+            content.bannerTitle = document.getElementById('banner-title').value;
+            content.bannerSubtitle = document.getElementById('banner-subtitle').value;
+            content.bannerButtonText = document.getElementById('banner-button-text').value;
+            
+            localStorage.setItem('home_content', JSON.stringify(content));
+            alert('横幅内容保存成功！');
+        });
+
+        // 保存服务介绍
+        document.getElementById('save-services-intro').addEventListener('click', function() {
+            const content = JSON.parse(localStorage.getItem('home_content')) || {};
+            content.servicesIntro = document.getElementById('services-intro').value;
+            
+            localStorage.setItem('home_content', JSON.stringify(content));
+            alert('服务介绍保存成功！');
+        });
+
+        // 保存关于我们预览
+        document.getElementById('save-about-preview').addEventListener('click', function() {
+            const content = JSON.parse(localStorage.getItem('home_content')) || {};
+            content.aboutPreview = document.getElementById('about-preview').value;
+            
+            localStorage.setItem('home_content', JSON.stringify(content));
+            alert('关于我们预览保存成功！');
+        });
+
+        // 加载关于我们内容
+        function loadAboutContent() {
+            const content = JSON.parse(localStorage.getItem('about_content')) || {};
+            
+            document.getElementById('company-description').value = content.companyDescription || '';
+            
+            // 加载优势列表
+            const advantages = content.advantages || [
+                '专业团队，10年以上行业经验',
+                '一对一专属顾问服务',
+                '价格透明，无隐形收费',
+                '快速响应，及时解决问题'
+            ];
+            
+            const advantagesContainer = document.getElementById('advantages-container');
+            advantagesContainer.innerHTML = '';
+            
+            advantages.forEach((advantage, index) => {
+                const advantageDiv = document.createElement('div');
+                advantageDiv.style.marginBottom = '10px';
+                advantageDiv.innerHTML = `
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" value="${advantage}" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 5px;" data-index="${index}">
+                        <button class="delete-advantage" data-index="${index}" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">删除</button>
+                    </div>
+                `;
+                advantagesContainer.appendChild(advantageDiv);
+            });
+            
+            // 绑定删除优势事件
+            bindAdvantageEvents();
+        }
+
+        // 添加优势
+        document.getElementById('add-advantage').addEventListener('click', function() {
+            const content = JSON.parse(localStorage.getItem('about_content')) || {};
+            const advantages = content.advantages || [];
+            advantages.push('新优势描述');
+            content.advantages = advantages;
+            localStorage.setItem('about_content', JSON.stringify(content));
+            loadAboutContent();
+        });
+
+        // 绑定优势事件
+        function bindAdvantageEvents() {
+            document.querySelectorAll('.delete-advantage').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    const content = JSON.parse(localStorage.getItem('about_content')) || {};
+                    const advantages = content.advantages || [];
+                    advantages.splice(index, 1);
+                    content.advantages = advantages;
+                    localStorage.setItem('about_content', JSON.stringify(content));
+                    loadAboutContent();
+                });
+            });
+            
+            // 实时保存优势修改
+            document.querySelectorAll('#advantages-container input').forEach(input => {
+                input.addEventListener('input', function() {
+                    const index = parseInt(this.dataset.index);
+                    const content = JSON.parse(localStorage.getItem('about_content')) || {};
+                    const advantages = content.advantages || [];
+                    advantages[index] = this.value;
+                    content.advantages = advantages;
+                    localStorage.setItem('about_content', JSON.stringify(content));
+                });
+            });
+        }
+
+        // 保存公司简介
+        document.getElementById('save-company-description').addEventListener('click', function() {
+            const content = JSON.parse(localStorage.getItem('about_content')) || {};
+            content.companyDescription = document.getElementById('company-description').value;
+            
+            localStorage.setItem('about_content', JSON.stringify(content));
+            alert('公司简介保存成功！');
+        });
+
+        // 加载服务内容
+        function loadServicesContent() {
+            const content = JSON.parse(localStorage.getItem('services_content')) || {};
+            
+            document.getElementById('business-service-desc').value = content.business || '专业的企业工商代理服务，包括公司设立、变更、注销、转让等一站式服务。';
+            document.getElementById('ip-service-desc').value = content.ip || '全面的知识产权服务，涵盖商标注册、版权登记、专利申报等专业服务。';
+            document.getElementById('accounting-service-desc').value = content.accounting || '专业的会计服务，包括一般纳税人、小规模纳税人、出口退税等税务申报服务。';
+            document.getElementById('banking-service-desc').value = content.banking || '银行开户及金融服务，包括对公账户设立、社保公积金代申请等。';
+        }
+
+        // 保存服务描述
+        document.querySelectorAll('.save-service-desc').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const serviceType = this.dataset.service;
+                const content = JSON.parse(localStorage.getItem('services_content')) || {};
+                const textarea = document.getElementById(serviceType + '-service-desc');
+                content[serviceType] = textarea.value;
+                
+                localStorage.setItem('services_content', JSON.stringify(content));
+                alert('服务描述保存成功！');
+            });
+        });
+
+        // 加载文章列表
+        function loadArticles() {
+            const articles = JSON.parse(localStorage.getItem('articles')) || [
+                {
+                    id: 1,
+                    title: '新税收政策解读',
+                    category: 'policy',
+                    publishTime: '2024-01-15 10:30:00',
+                    status: 'published',
+                    views: 156
+                },
+                {
+                    id: 2,
+                    title: '企业税务筹划技巧',
+                    category: 'tips',
+                    publishTime: '2024-01-12 14:20:00',
+                    status: 'published',
+                    views: 89
+                },
+                {
+                    id: 3,
+                    title: '公司年度财务报告',
+                    category: 'knowledge',
+                    publishTime: '2024-01-10 09:15:00',
+                    status: 'draft',
+                    views: 0
+                }
+            ];
+            
+            const tbody = document.getElementById('articles-table-body');
+            tbody.innerHTML = '';
+            
+            articles.forEach(article => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${article.title}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${getCategoryText(article.category)}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${article.publishTime}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                        <span class="article-status-badge" data-status="${article.status}">${article.status === 'published' ? '已发布' : '草稿'}</span>
+                    </td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${article.views}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                        <button class="edit-article" data-id="${article.id}" style="background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;">编辑</button>
+                        <button class="delete-article" data-id="${article.id}" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">删除</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // 绑定文章操作事件
+            bindArticleEvents();
+            updateArticleStatusBadges();
+        }
+
+        // 获取分类文本
+        function getCategoryText(category) {
+            const categories = {
+                'news': '公司新闻',
+                'knowledge': '财税知识',
+                'policy': '政策解读',
+                'tips': '实用技巧'
+            };
+            return categories[category] || category;
+        }
+
+        // 更新文章状态徽章样式
+        function updateArticleStatusBadges() {
+            document.querySelectorAll('.article-status-badge').forEach(badge => {
+                const status = badge.dataset.status;
+                badge.style.padding = '4px 8px';
+                badge.style.borderRadius = '12px';
+                badge.style.fontSize = '12px';
+                badge.style.fontWeight = 'bold';
+                
+                if (status === 'published') {
+                    badge.style.background = '#27ae60';
+                    badge.style.color = 'white';
+                } else {
+                    badge.style.background = '#f39c12';
+                    badge.style.color = 'white';
+                }
+            });
+        }
+
+        // 绑定文章操作事件
+        function bindArticleEvents() {
+            document.querySelectorAll('.edit-article').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const articleId = parseInt(this.dataset.id);
+                    editArticle(articleId);
+                });
+            });
+
+            document.querySelectorAll('.delete-article').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const articleId = parseInt(this.dataset.id);
+                    deleteArticle(articleId);
+                });
+            });
+        }
+
+        // 新建文章
+        document.getElementById('new-article').addEventListener('click', function() {
+            document.getElementById('article-modal-title').textContent = '新建文章';
+            document.getElementById('article-title').value = '';
+            document.getElementById('article-category').value = 'news';
+            document.getElementById('article-content').value = '';
+            document.getElementById('article-status').value = 'draft';
+            document.getElementById('article-modal').dataset.currentId = '';
+            document.getElementById('article-modal').style.display = 'block';
+        });
+
+        // 编辑文章
+        function editArticle(articleId) {
+            const articles = JSON.parse(localStorage.getItem('articles')) || [];
+            const article = articles.find(a => a.id === articleId);
+            
+            if (article) {
+                document.getElementById('article-modal-title').textContent = '编辑文章';
+                document.getElementById('article-title').value = article.title;
+                document.getElementById('article-category').value = article.category;
+                document.getElementById('article-content').value = article.content || '';
+                document.getElementById('article-status').value = article.status;
+                document.getElementById('article-modal').dataset.currentId = articleId;
+                document.getElementById('article-modal').style.display = 'block';
+            }
+        }
+
+        // 保存文章
+        document.getElementById('save-article').addEventListener('click', function() {
+            const articleId = document.getElementById('article-modal').dataset.currentId;
+            const articles = JSON.parse(localStorage.getItem('articles')) || [];
+            
+            const articleData = {
+                title: document.getElementById('article-title').value,
+                category: document.getElementById('article-category').value,
+                content: document.getElementById('article-content').value,
+                status: document.getElementById('article-status').value,
+                publishTime: articleId ? articles.find(a => a.id === parseInt(articleId)).publishTime : new Date().toLocaleString('zh-CN'),
+                views: articleId ? articles.find(a => a.id === parseInt(articleId)).views : 0
+            };
+            
+            if (!articleData.title) {
+                alert('请输入文章标题！');
+                return;
+            }
+            
+            if (articleId) {
+                // 编辑现有文章
+                const index = articles.findIndex(a => a.id === parseInt(articleId));
+                articles[index] = { ...articles[index], ...articleData };
+            } else {
+                // 新建文章
+                const newId = articles.length > 0 ? Math.max(...articles.map(a => a.id)) + 1 : 1;
+                articleData.id = newId;
+                articles.push(articleData);
+            }
+            
+            localStorage.setItem('articles', JSON.stringify(articles));
+            document.getElementById('article-modal').style.display = 'none';
+            loadArticles();
+            alert('文章保存成功！');
+        });
+
+        // 删除文章
+        function deleteArticle(articleId) {
+            if (confirm('确定要删除这篇文章吗？此操作不可恢复！')) {
+                let articles = JSON.parse(localStorage.getItem('articles')) || [];
+                articles = articles.filter(a => a.id !== articleId);
+                localStorage.setItem('articles', JSON.stringify(articles));
+                loadArticles();
+                alert('文章删除成功！');
+            }
+        }
+
+        // 关闭文章模态框
+        document.getElementById('close-article-modal').addEventListener('click', function() {
+            document.getElementById('article-modal').style.display = 'none';
+        });
+
+        // 加载常见问题
+        function loadFAQ() {
+            const faqs = JSON.parse(localStorage.getItem('faqs')) || [
+                {
+                    id: 1,
+                    question: '公司注册需要哪些材料？',
+                    answer: '公司注册需要准备以下材料：1. 法定代表人身份证复印件；2. 股东身份证复印件；3. 公司名称预先核准通知书；4. 公司章程；5. 经营场所证明等。'
+                },
+                {
+                    id: 2,
+                    question: '商标注册需要多长时间？',
+                    answer: '商标注册一般需要9-12个月，包括形式审查、实质审查、公告期等阶段。'
+                },
+                {
+                    id: 3,
+                    question: '一般纳税人申请条件是什么？',
+                    answer: '一般纳税人申请条件包括：1. 年应税销售额超过500万元；2. 会计核算健全；3. 能够准确提供税务资料等。'
+                }
+            ];
+            
+            const container = document.getElementById('faq-container');
+            container.innerHTML = '';
+            
+            faqs.forEach(faq => {
+                const faqDiv = document.createElement('div');
+                faqDiv.className = 'faq-item';
+                faqDiv.style.border = '1px solid #ddd';
+                faqDiv.style.borderRadius = '5px';
+                faqDiv.style.padding = '15px';
+                faqDiv.style.marginBottom = '15px';
+                faqDiv.style.background = '#f9f9f9';
+                
+                faqDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0 0 5px 0; color: #2c3e50;">${faq.question}</h4>
+                            <p style="margin: 0; color: #666; line-height: 1.5;">${faq.answer}</p>
+                        </div>
+                        <div style="display: flex; gap: 5px;">
+                            <button class="edit-faq" data-id="${faq.id}" style="background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">编辑</button>
+                            <button class="delete-faq" data-id="${faq.id}" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">删除</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(faqDiv);
+            });
+            
+            // 绑定FAQ操作事件
+            bindFAQEvents();
+        }
+
+        // 绑定FAQ操作事件
+        function bindFAQEvents() {
+            document.querySelectorAll('.edit-faq').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const faqId = parseInt(this.dataset.id);
+                    editFAQ(faqId);
+                });
+            });
+
+            document.querySelectorAll('.delete-faq').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const faqId = parseInt(this.dataset.id);
+                    deleteFAQ(faqId);
+                });
+            });
+        }
+
+        // 新建FAQ
+        document.getElementById('new-faq').addEventListener('click', function() {
+            const faqModal = document.createElement('div');
+            faqModal.id = 'faq-modal';
+            faqModal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;';
+            
+            faqModal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px;">
+                    <h3>添加常见问题</h3>
+                    <div style="margin-bottom: 15px;">
+                        <label for="faq-question">问题：</label>
+                        <input type="text" id="faq-question" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label for="faq-answer">答案：</label>
+                        <textarea id="faq-answer" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 120px;"></textarea>
+                    </div>
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button type="button" id="close-faq-modal" style="background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">取消</button>
+                        <button type="button" id="save-faq" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(faqModal);
+            
+            // 绑定模态框事件
+            document.getElementById('close-faq-modal').addEventListener('click', function() {
+                document.body.removeChild(faqModal);
+            });
+            
+            document.getElementById('save-faq').addEventListener('click', function() {
+                const question = document.getElementById('faq-question').value;
+                const answer = document.getElementById('faq-answer').value;
+                
+                if (!question || !answer) {
+                    alert('请填写问题和答案！');
+                    return;
+                }
+                
+                const faqs = JSON.parse(localStorage.getItem('faqs')) || [];
+                const newId = faqs.length > 0 ? Math.max(...faqs.map(f => f.id)) + 1 : 1;
+                
+                faqs.push({
+                    id: newId,
+                    question: question,
+                    answer: answer
+                });
+                
+                localStorage.setItem('faqs', JSON.stringify(faqs));
+                document.body.removeChild(faqModal);
+                loadFAQ();
+                alert('常见问题添加成功！');
+            });
+        });
+
+        // 编辑FAQ
+        function editFAQ(faqId) {
+            const faqs = JSON.parse(localStorage.getItem('faqs')) || [];
+            const faq = faqs.find(f => f.id === faqId);
+            
+            if (!faq) return;
+            
+            const faqModal = document.createElement('div');
+            faqModal.id = 'faq-modal';
+            faqModal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;';
+            
+            faqModal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px;">
+                    <h3>编辑常见问题</h3>
+                    <div style="margin-bottom: 15px;">
+                        <label for="faq-question">问题：</label>
+                        <input type="text" id="faq-question" value="${faq.question}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label for="faq-answer">答案：</label>
+                        <textarea id="faq-answer" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 120px;">${faq.answer}</textarea>
+                    </div>
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button type="button" id="close-faq-modal" style="background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">取消</button>
+                        <button type="button" id="save-faq" data-id="${faqId}" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(faqModal);
+            
+            // 绑定模态框事件
+            document.getElementById('close-faq-modal').addEventListener('click', function() {
+                document.body.removeChild(faqModal);
+            });
+            
+            document.getElementById('save-faq').addEventListener('click', function() {
+                const question = document.getElementById('faq-question').value;
+                const answer = document.getElementById('faq-answer').value;
+                
+                if (!question || !answer) {
+                    alert('请填写问题和答案！');
+                    return;
+                }
+                
+                const faqs = JSON.parse(localStorage.getItem('faqs')) || [];
+                const index = faqs.findIndex(f => f.id === faqId);
+                
+                if (index !== -1) {
+                    faqs[index] = {
+                        ...faqs[index],
+                        question: question,
+                        answer: answer
+                    };
+                    
+                    localStorage.setItem('faqs', JSON.stringify(faqs));
+                    document.body.removeChild(faqModal);
+                    loadFAQ();
+                    alert('常见问题更新成功！');
+                }
+            });
+        }
+
+        // 删除FAQ
+        function deleteFAQ(faqId) {
+            if (confirm('确定要删除这个常见问题吗？此操作不可恢复！')) {
+                let faqs = JSON.parse(localStorage.getItem('faqs')) || [];
+                faqs = faqs.filter(f => f.id !== faqId);
+                localStorage.setItem('faqs', JSON.stringify(faqs));
+                loadFAQ();
+                alert('常见问题删除成功！');
+            }
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 默认加载首页内容
+            loadHomeContent();
+            
+            // 绑定文章模态框关闭事件（点击背景关闭）
+            document.getElementById('article-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+        });

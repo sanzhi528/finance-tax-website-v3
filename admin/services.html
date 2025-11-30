@@ -1,0 +1,406 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务管理 - 财务税务代理公司</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- 侧边栏 -->
+        <div class="admin-sidebar">
+            <h2>管理后台</h2>
+            <ul class="admin-menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> 仪表板</a></li>
+                <li><a href="company-info.html"><i class="fas fa-building"></i> 公司信息</a></li>
+                <li><a href="services.html" class="active"><i class="fas fa-cogs"></i> 服务管理</a></li>
+                <li><a href="consultations.html"><i class="fas fa-comments"></i> 咨询管理</a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> 用户管理</a></li>
+                <li><a href="content.html"><i class="fas fa-edit"></i> 内容编辑</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> 系统设置</a></li>
+                <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+            </ul>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1>服务项目管理</h1>
+                <p>管理公司提供的各项服务内容</p>
+            </div>
+
+            <!-- 服务类别导航 -->
+            <div style="margin-bottom: 30px;">
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="service-category-btn active" data-category="all">全部服务</button>
+                    <button class="service-category-btn" data-category="business">工商代理</button>
+                    <button class="service-category-btn" data-category="intellectual">知识产权</button>
+                    <button class="service-category-btn" data-category="accounting">会计服务</button>
+                    <button class="service-category-btn" data-category="banking">银行开户</button>
+                </div>
+            </div>
+
+            <!-- 服务列表 -->
+            <div class="admin-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>服务列表</h3>
+                    <button id="add-service-btn" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        <i class="fas fa-plus"></i> 添加新服务
+                    </button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">服务名称</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">类别</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">价格</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">状态</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">排序</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="services-table-body">
+                            <!-- 服务数据将通过JavaScript动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加/编辑服务模态框 -->
+    <div id="service-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <h3 id="modal-title">添加新服务</h3>
+            
+            <form id="service-form">
+                <div style="margin-bottom: 20px;">
+                    <label for="service-name">服务名称</label>
+                    <input type="text" id="service-name" name="service-name" required>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="service-category">服务类别</label>
+                    <select id="service-category" name="service-category" required>
+                        <option value="">请选择类别</option>
+                        <option value="business">工商代理</option>
+                        <option value="intellectual">知识产权</option>
+                        <option value="accounting">会计服务</option>
+                        <option value="banking">银行开户</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="service-price">服务价格</label>
+                    <input type="text" id="service-price" name="service-price" placeholder="例如：¥500 或 面议" required>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="service-description">服务描述</label>
+                    <textarea id="service-description" name="service-description" rows="4" placeholder="详细描述服务内容..." required></textarea>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="service-materials">所需资料</label>
+                    <textarea id="service-materials" name="service-materials" rows="4" placeholder="客户需要提供的资料清单..." required></textarea>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="service-process">服务流程</label>
+                    <textarea id="service-process" name="service-process" rows="4" placeholder="详细的服务流程说明..." required></textarea>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="service-duration">办理周期</label>
+                    <input type="text" id="service-duration" name="service-duration" placeholder="例如：3-5个工作日" required>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label for="service-order">显示顺序</label>
+                    <input type="number" id="service-order" name="service-order" min="1" value="1" required>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label>
+                        <input type="checkbox" id="service-status" name="service-status" checked> 启用服务
+                    </label>
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" id="cancel-modal" style="background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">取消</button>
+                    <button type="submit" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 安全检查：如果未登录，跳转到登录页
+        if (localStorage.getItem('admin_logged_in') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // 退出登录
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('确定要退出登录吗？')) {
+                localStorage.removeItem('admin_logged_in');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // 默认服务数据
+        const defaultServices = [
+            {
+                id: 1,
+                name: '公司注册',
+                category: 'business',
+                price: '¥500起',
+                description: '专业代办各类公司注册，包括有限责任公司、股份有限公司等',
+                materials: '1. 法人身份证\n2. 股东身份证\n3. 公司名称\n4. 注册地址证明',
+                process: '1. 名称核准\n2. 准备材料\n3. 提交申请\n4. 领取执照',
+                duration: '3-5个工作日',
+                order: 1,
+                status: true
+            },
+            {
+                id: 2,
+                name: '商标注册',
+                category: 'intellectual',
+                price: '¥800起',
+                description: '专业商标注册服务，提高注册成功率',
+                materials: '1. 商标图样\n2. 申请人身份证\n3. 商品/服务类别',
+                process: '1. 商标查询\n2. 准备材料\n3. 提交申请\n4. 公告期\n5. 领取证书',
+                duration: '8-12个月',
+                order: 2,
+                status: true
+            },
+            {
+                id: 3,
+                name: '记账报税',
+                category: 'accounting',
+                price: '¥200/月起',
+                description: '专业会计团队为您提供记账报税服务',
+                materials: '1. 公司基本信息\n2. 银行流水\n3. 发票凭证\n4. 员工信息',
+                process: '1. 收集凭证\n2. 记账处理\n3. 税务申报\n4. 报表生成',
+                duration: '每月固定周期',
+                order: 3,
+                status: true
+            },
+            {
+                id: 4,
+                name: '银行开户',
+                category: 'banking',
+                price: '¥300起',
+                description: '协助办理对公账户开户手续',
+                materials: '1. 营业执照\n2. 法人身份证\n3. 公司章程\n4. 办公地址证明',
+                process: '1. 预约银行\n2. 准备材料\n3. 现场办理\n4. 账户激活',
+                duration: '5-7个工作日',
+                order: 4,
+                status: true
+            }
+        ];
+
+        // 加载服务数据
+        function loadServices(category = 'all') {
+            let services = JSON.parse(localStorage.getItem('services')) || defaultServices;
+            
+            if (category !== 'all') {
+                services = services.filter(service => service.category === category);
+            }
+            
+            // 按显示顺序排序
+            services.sort((a, b) => a.order - b.order);
+            
+            const tbody = document.getElementById('services-table-body');
+            tbody.innerHTML = '';
+            
+            services.forEach(service => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${service.name}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${getCategoryName(service.category)}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${service.price}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                        <span style="color: ${service.status ? '#27ae60' : '#e74c3c'};">
+                            ${service.status ? '启用' : '禁用'}
+                        </span>
+                    </td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">${service.order}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                        <button class="edit-service" data-id="${service.id}" style="background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;">编辑</button>
+                        <button class="delete-service" data-id="${service.id}" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">删除</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // 绑定编辑和删除事件
+            bindServiceEvents();
+        }
+
+        // 获取类别名称
+        function getCategoryName(category) {
+            const categories = {
+                'business': '工商代理',
+                'intellectual': '知识产权',
+                'accounting': '会计服务',
+                'banking': '银行开户'
+            };
+            return categories[category] || category;
+        }
+
+        // 绑定服务操作事件
+        function bindServiceEvents() {
+            document.querySelectorAll('.edit-service').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const serviceId = parseInt(this.dataset.id);
+                    editService(serviceId);
+                });
+            });
+
+            document.querySelectorAll('.delete-service').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const serviceId = parseInt(this.dataset.id);
+                    deleteService(serviceId);
+                });
+            });
+        }
+
+        // 编辑服务
+        function editService(serviceId) {
+            const services = JSON.parse(localStorage.getItem('services')) || defaultServices;
+            const service = services.find(s => s.id === serviceId);
+            
+            if (service) {
+                document.getElementById('modal-title').textContent = '编辑服务';
+                document.getElementById('service-name').value = service.name;
+                document.getElementById('service-category').value = service.category;
+                document.getElementById('service-price').value = service.price;
+                document.getElementById('service-description').value = service.description;
+                document.getElementById('service-materials').value = service.materials;
+                document.getElementById('service-process').value = service.process;
+                document.getElementById('service-duration').value = service.duration;
+                document.getElementById('service-order').value = service.order;
+                document.getElementById('service-status').checked = service.status;
+                
+                document.getElementById('service-form').dataset.editId = serviceId;
+                document.getElementById('service-modal').style.display = 'block';
+            }
+        }
+
+        // 删除服务
+        function deleteService(serviceId) {
+            if (confirm('确定要删除这个服务吗？')) {
+                let services = JSON.parse(localStorage.getItem('services')) || defaultServices;
+                services = services.filter(s => s.id !== serviceId);
+                localStorage.setItem('services', JSON.stringify(services));
+                loadServices();
+                alert('服务删除成功！');
+            }
+        }
+
+        // 添加新服务按钮
+        document.getElementById('add-service-btn').addEventListener('click', function() {
+            document.getElementById('modal-title').textContent = '添加新服务';
+            document.getElementById('service-form').reset();
+            document.getElementById('service-form').dataset.editId = '';
+            document.getElementById('service-modal').style.display = 'block';
+        });
+
+        // 模态框取消按钮
+        document.getElementById('cancel-modal').addEventListener('click', function() {
+            document.getElementById('service-modal').style.display = 'none';
+        });
+
+        // 服务表单提交
+        document.getElementById('service-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const serviceData = {
+                name: formData.get('service-name'),
+                category: formData.get('service-category'),
+                price: formData.get('service-price'),
+                description: formData.get('service-description'),
+                materials: formData.get('service-materials'),
+                process: formData.get('service-process'),
+                duration: formData.get('service-duration'),
+                order: parseInt(formData.get('service-order')),
+                status: document.getElementById('service-status').checked
+            };
+            
+            let services = JSON.parse(localStorage.getItem('services')) || defaultServices;
+            
+            if (this.dataset.editId) {
+                // 编辑现有服务
+                const serviceId = parseInt(this.dataset.editId);
+                const index = services.findIndex(s => s.id === serviceId);
+                if (index !== -1) {
+                    serviceData.id = serviceId;
+                    services[index] = serviceData;
+                }
+            } else {
+                // 添加新服务
+                serviceData.id = Date.now(); // 使用时间戳作为ID
+                services.push(serviceData);
+            }
+            
+            localStorage.setItem('services', JSON.stringify(services));
+            document.getElementById('service-modal').style.display = 'none';
+            loadServices();
+            alert('服务保存成功！');
+        });
+
+        // 服务类别筛选
+        document.querySelectorAll('.service-category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.service-category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                loadServices(this.dataset.category);
+            });
+        });
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadServices();
+        });
+
+        // 侧边栏菜单激活状态
+        document.querySelectorAll('.admin-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.admin-menu a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+    <style>
+        .service-category-btn {
+            background: #ecf0f1;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .service-category-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .service-category-btn:hover {
+            background: #bdc3c7;
+        }
+
+        .service-category-btn.active:hover {
+            background: #2980b9;
+        }
+    </style>
+</body>
+</html>

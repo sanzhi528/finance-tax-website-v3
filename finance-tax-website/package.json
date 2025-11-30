@@ -1,0 +1,40 @@
+{
+  "name": "finance-tax-website",
+  "version": "1.0.0",
+  "description": "财务税务代理公司网站 - 专业企业服务解决方案",
+  "main": "api/server.js",
+  "scripts": {
+    "start": "node api/server.js",
+    "dev": "nodemon api/server.js",
+    "build": "echo '前端静态文件无需构建'",
+    "test": "echo '暂无测试脚本' && exit 0"
+  },
+  "keywords": [
+    "财务",
+    "税务",
+    "代理",
+    "企业服务",
+    "网站"
+  ],
+  "author": "财务税务代理公司",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-company/finance-tax-website.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-company/finance-tax-website/issues"
+  },
+  "homepage": "https://github.com/your-company/finance-tax-website#readme"
+}

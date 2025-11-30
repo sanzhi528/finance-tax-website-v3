@@ -1,0 +1,125 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "张三",
+      "email": "zhangsan@example.com",
+      "phone": "13800138000",
+      "company": "ABC科技有限公司",
+      "vip": true,
+      "registrationDate": "2024-01-15",
+      "lastLogin": "2024-01-20 10:30:00"
+    },
+    {
+      "id": 2,
+      "name": "李四",
+      "email": "lisi@example.com",
+      "phone": "13900139000",
+      "company": "XYZ有限公司",
+      "vip": false,
+      "registrationDate": "2024-01-12",
+      "lastLogin": "2024-01-19 14:20:00"
+    },
+    {
+      "id": 3,
+      "name": "王五",
+      "email": "wangwu@example.com",
+      "phone": "13700137000",
+      "company": "DEF企业集团",
+      "vip": true,
+      "registrationDate": "2024-01-10",
+      "lastLogin": "2024-01-18 09:15:00"
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "name": "公司注册",
+      "category": "工商代理",
+      "price": "2000-5000元",
+      "description": "专业的企业工商代理服务，包括公司设立、变更、注销、转让等一站式服务。",
+      "features": ["快速审批", "专业顾问", "全程代办"],
+      "requiredMaterials": ["法定代表人身份证", "股东身份证", "公司名称", "经营场所证明"]
+    },
+    {
+      "id": 2,
+      "name": "商标注册",
+      "category": "知识产权",
+      "price": "1500-3000元",
+      "description": "全面的知识产权服务，涵盖商标注册、版权登记、专利申报等专业服务。",
+      "features": ["专业查询", "快速申报", "全程监控"],
+      "requiredMaterials": ["商标图样", "申请人身份证明", "商品/服务类别"]
+    },
+    {
+      "id": 3,
+      "name": "会计服务",
+      "category": "会计服务",
+      "price": "500-2000元/月",
+      "description": "专业的会计服务，包括一般纳税人、小规模纳税人、出口退税等税务申报服务。",
+      "features": ["专业会计", "及时申报", "税务筹划"],
+      "requiredMaterials": ["营业执照", "银行流水", "发票凭证"]
+    },
+    {
+      "id": 4,
+      "name": "银行开户",
+      "category": "银行开户",
+      "price": "1000-3000元",
+      "description": "银行开户及金融服务，包括对公账户设立、社保公积金代申请等。",
+      "features": ["多家银行", "快速开户", "专业指导"],
+      "requiredMaterials": ["营业执照", "法定代表人身份证", "公司章程"]
+    }
+  ],
+  "consultations": [
+    {
+      "id": 1,
+      "name": "张三",
+      "phone": "13800138000",
+      "email": "zhangsan@example.com",
+      "company": "ABC科技有限公司",
+      "service": "公司注册",
+      "description": "需要注册一家科技公司，咨询相关流程和费用。",
+      "budget": "3000-5000元",
+      "urgency": "高",
+      "status": "待处理",
+      "createTime": "2024-01-20 10:30:00"
+    },
+    {
+      "id": 2,
+      "name": "李四",
+      "phone": "13900139000",
+      "email": "lisi@example.com",
+      "company": "XYZ有限公司",
+      "service": "商标注册",
+      "description": "想注册一个商标，咨询需要准备的材料和时间。",
+      "budget": "2000元左右",
+      "urgency": "中",
+      "status": "已处理",
+      "createTime": "2024-01-19 14:20:00"
+    },
+    {
+      "id": 3,
+      "name": "王五",
+      "phone": "13700137000",
+      "email": "wangwu@example.com",
+      "company": "DEF企业集团",
+      "service": "会计服务",
+      "description": "需要外包会计服务，咨询月度服务内容和价格。",
+      "budget": "1000元/月",
+      "urgency": "低",
+      "status": "处理中",
+      "createTime": "2024-01-18 09:15:00"
+    }
+  ],
+  "settings": {
+    "siteName": "财务税务代理公司",
+    "siteUrl": "http://localhost:8000",
+    "siteDescription": "专业财务税务代理服务，一站式企业服务解决方案",
+    "siteKeywords": "财务代理,税务代理,工商注册,知识产权,会计服务",
+    "contactPhone": "+86-0755-85216839",
+    "contactEmail": "1006993710@qq.com",
+    "contactAddress": "中国广东省深圳市龙岗区龙岗街道龙岗路东森大厦",
+    "businessHours": "周一至周五 9:00-18:00",
+    "maintenanceMode": false,
+    "maintenanceMessage": "网站正在维护中，请稍后再访问。"
+  }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - 财务税务代理公司</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="background: #f8f9fa;">
+    <!-- 后台登录表单 -->
+    <div class="container">
+        <div class="form-container">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <img src="../images/LOGO图标.jpg" alt="公司LOGO" style="height: 60px; margin-bottom: 15px;">
+                <h2>后台管理系统</h2>
+                <p style="color: #666;">财务税务代理公司管理后台</p>
+            </div>
+            
+            <form id="adminLoginForm" action="login.php" method="POST">
+                <div class="form-group">
+                    <label for="admin-username">管理员账??/label>
+                    <input type="text" id="admin-username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="admin-password">密码</label>
+                    <input type="password" id="admin-password" name="password" required>
+                </div>
+                
+                <div class="form-group" style="display: flex; align-items: center; justify-content: space-between;">
+                    <label style="margin-bottom: 0;">
+                        <input type="checkbox" name="remember" style="margin-right: 5px;">
+                        记住登录状??
+                    </label>
+                    <a href="#" style="color: #3498db; text-decoration: none;">忘记密码??/a>
+                </div>
+                
+                <button type="submit" class="submit-btn">登录后台</button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                <a href="../index.html" style="color: #666; text-decoration: none;">
+                    <i class="fas fa-arrow-left"></i> 返回网站首页
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 管理员登录表单处??
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            // 显示提交中状??
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '登录??..';
+            submitBtn.disabled = true;
+            
+            // 模拟登录成功，实际项目中应该发送到后端验证
+            setTimeout(() => {
+                // 这里应该根据后端返回结果判断
+                // 暂时模拟登录成功
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        });
+        
+        // 安全检查：如果已经登录，直接跳转到仪表??
+        if (localStorage.getItem('admin_logged_in') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>
+
